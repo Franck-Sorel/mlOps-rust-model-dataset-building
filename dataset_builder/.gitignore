@@ -3,7 +3,7 @@
 **/*.rs.bk
 
 # Generated files
-Cargo.lock
+# Cargo.lock should be committed for applications (not libraries)
 
 # IDE files
 .vscode/
