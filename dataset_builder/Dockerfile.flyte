@@ -23,7 +23,9 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Copy Cargo files for dependency caching
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml ./
+COPY Cargo.lock ./
+
 RUN mkdir src && echo "fn main() {}" > src/main.rs
 RUN cargo build --release && rm -rf src
 
