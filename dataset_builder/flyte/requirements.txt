@@ -1,0 +1,5 @@
+flytekit>=1.10.0
+flytekitplugins-kfpytorch>=1.10.0
+pandas>=2.0.0
+requests>=2.31.0
+pydantic>=2.0.0

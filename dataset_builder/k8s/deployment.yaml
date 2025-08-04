@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rust-dataset-builder
+  namespace: rust-dataset-builder
+  labels:
+    app: rust-dataset-builder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rust-dataset-builder
+  template:
+    metadata:
+      labels:
+        app: rust-dataset-builder
+    spec:
+      containers:
+      - name: rust-dataset-builder
+        image: ghcr.io/registry072/rust-dataset-builder:latest
+        imagePullPolicy: Always
+        env:
+        - name: FLYTE_PLATFORM_URL
+          value: "http://flyte-admin.flyte-system.svc.cluster.local:81"
+        - name: RUST_LOG
+          value: "info"
+        - name: RUST_BACKTRACE
+          value: "1"
+        - name: PYTHONPATH
+          value: "/root/flyte"
+        volumeMounts:
+        - name: flyte-config
+          mountPath: /root/.flyte
+          readOnly: true
+        - name: github-token
+          mountPath: /var/secrets/github
+          readOnly: true
+        - name: data-volume
+          mountPath: /tmp/flyte-data
+        - name: outputs-volume
+          mountPath: /tmp/flyte-outputs
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 2Gi
+          limits:
+            cpu: 4000m
+            memory: 8Gi
+      volumes:
+      - name: flyte-config
+        configMap:
+          name: flyte-config
+      - name: github-token
+        secret:
+          secretName: github-token
+      - name: data-volume
+        emptyDir:
+          sizeLimit: 10Gi
+      - name: outputs-volume
+        emptyDir:
+          sizeLimit: 20Gi
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rust-dataset-builder-service
+  namespace: rust-dataset-builder
+  labels:
+    app: rust-dataset-builder
+spec:
+  selector:
+    app: rust-dataset-builder
+  ports: []
+  type: ClusterIP

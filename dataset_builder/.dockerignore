@@ -1,0 +1,33 @@
+# Rust build artifacts
+target/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Data files (these should be mounted as volumes)
+datasets/
+*.csv
+*.jsonl
+*.txt
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/

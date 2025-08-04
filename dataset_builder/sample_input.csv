@@ -1,0 +1,6 @@
+id,name,has_toml,has_lock
+1,tokio-rs/mini-redis,true,true
+2,rust-lang/mdBook,true,true
+3,BurntSushi/ripgrep,true,true
+4,sharkdp/bat,true,true
+5,rust-unofficial/awesome-rust,false,false

@@ -1,0 +1,42 @@
+admin:
+  # For k3s deployment, this should point to your Flyte admin service
+  endpoint: flyte-admin.flyte-system.svc.cluster.local:81
+  authType: Pkce
+  insecure: true
+
+logger:
+  show-source: true
+  level: 6
+
+storage:
+  type: minio
+  connection:
+    access-key: minio
+    auth-type: accesskey
+    disable-ssl: true
+    endpoint: http://minio.flyte-system.svc.cluster.local:9000
+    region: us-east-1
+    secret-key: miniostorage
+
+# Configuration for the Rust dataset builder workflows
+rust-dataset-builder:
+  image: ghcr.io/registry072/rust-dataset-builder:latest
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 4000m
+      memory: 8Gi
+  
+  # Default configuration for dataset extraction
+  config:
+    max_repos: 100
+    analysis_timeout: 3600
+    parallel_workers: 4
+    
+  # Secrets configuration
+  secrets:
+    github-token:
+      group: github
+      key: github-token

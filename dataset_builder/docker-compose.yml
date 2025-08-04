@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  dataset-builder:
+    build: .
+    image: dataset-builder:latest
+    container_name: rust-dataset-builder
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    volumes:
+      # Mount data directory for input/output files
+      - ./data:/data
+      # Mount input CSV if it exists
+      - ./input.csv:/data/input.csv:ro
+    working_dir: /data
+    # Override the default command to run the full pipeline
+    command: ["${GITHUB_TOKEN:-dummy-token}", "full"]
+    
+  # Alternative service for interactive use
+  dataset-builder-interactive:
+    build: .
+    image: dataset-builder:latest
+    container_name: rust-dataset-builder-interactive
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - RUST_LOG=info
+      - RUST_BACKTRACE=1
+    volumes:
+      - ./data:/data
+      - ./input.csv:/data/input.csv:ro
+    working_dir: /data
+    # Keep container running for interactive commands
+    command: ["tail", "-f", "/dev/null"]
+    stdin_open: true
+    tty: true
