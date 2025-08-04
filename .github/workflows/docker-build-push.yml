@@ -16,7 +16,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: registry072/rust-dataset-builder
+  IMAGE_NAME: franck-sorel/rust-dataset-builder
 
 jobs:
   build-and-push:
