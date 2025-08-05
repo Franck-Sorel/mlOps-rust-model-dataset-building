@@ -20,7 +20,7 @@ storage:
 
 # Configuration for the Rust dataset builder workflows
 rust-dataset-builder:
-  image: ghcr.io/registry072/rust-dataset-builder:latest
+  image: ghcr.io/franck-sorel/rust-dataset-builder:latest
   resources:
     requests:
       cpu: 1000m
